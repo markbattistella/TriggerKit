@@ -36,7 +36,8 @@ Alternatively, you can add `TriggerKit` using Xcode by navigating to `File > Add
 
 ## Recommended Usage
 
-!> Note: While you can use this package directly in your code, it is recommended to wrap it in another package or library to integrate it into a larger system. This design pattern promotes loose coupling, making it easier to use, test, and maintain your application. StateChangeModifier and TriggerActionPerformable are meant to serve as foundational building blocks for more complex state-driven behaviours in other packages, rather than being directly utilised in all instances.
+> [!NOTE]
+> While you can use this package directly in your code, it is recommended to wrap it in another package or library to integrate it into a larger system. This design pattern promotes loose coupling, making it easier to use and maintain your application. `StateChangeModifier` and `TriggerActionPerformable` are meant to serve as foundational building blocks for more complex state-driven behaviours in other packages, rather than being directly utilised in all instances.
 
 ## Usage
 
@@ -46,6 +47,7 @@ Instead of directly using `TriggerKit` in your application code, consider wrappi
 
 #### Wrapping `TriggerKit` for Haptic Feedback
 
+> [!TIP]
 > See: [HapticsManager](https://github.com/markbattistella/HapticsManager) Swift Package
 
 Let's create a package that implements haptic feedback using `TriggerKit`:
