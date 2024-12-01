@@ -52,61 +52,61 @@ Let's create a package that implements haptic feedback using `TriggerKit`:
 
 1. Define Custom User Default Keys for Feedback Settings
 
-  ```swift
-  public struct HapticFeedbackSettings {
-      internal static var isAvailable: Bool { 
-        CHHapticEngine.capabilitiesForHardware().supportsHaptics // system level checks
-      }
-      internal static var isEnabled: Bool { 
-        userIsPayingCustomer && !userNeedsHapticFeedback // your custom checks
-      }
-  }
-  ```
+```swift
+public struct HapticFeedbackSettings {
+    internal static var isAvailable: Bool { 
+      CHHapticEngine.capabilitiesForHardware().supportsHaptics // system level checks
+    }
+    internal static var isEnabled: Bool { 
+      userIsPayingCustomer && !userNeedsHapticFeedback // your custom checks
+    }
+}
+```
 
-1. Define a Custom Performer for Haptic Feedback
+2. Define a Custom Performer for Haptic Feedback
 
-  ```swift
-  public struct HapticFeedbackPerformer<T: Equatable>: TriggerActionPerformable, FeedbackSettingsConfigurable {
-      public typealias Trigger = T
+```swift
+public struct HapticFeedbackPerformer<T: Equatable>: TriggerActionPerformable, FeedbackSettingsConfigurable {
+    public typealias Trigger = T
 
-      public enum Feedback {
-          case impact(UIImpactFeedbackGenerator.FeedbackStyle)
-      }
+    public enum Feedback {
+        case impact(UIImpactFeedbackGenerator.FeedbackStyle)
+    }
 
-      public static var isAvailable: Bool { HapticFeedbackSettings.isAvailable }
-      public static var isEnabled: Bool { HapticFeedbackSettings.isEnabled }
+    public static var isAvailable: Bool { HapticFeedbackSettings.isAvailable }
+    public static var isEnabled: Bool { HapticFeedbackSettings.isEnabled }
 
-      public static func perform(_ feedback: Feedback) {
-        // your logic here
-      }
+    public static func perform(_ feedback: Feedback) {
+      // your logic here
+    }
 
-      public static func canPerform() -> Bool { isAvailable && isEnabled }
-  }
-  ```
+    public static func canPerform() -> Bool { isAvailable && isEnabled }
+}
+```
 
-1. Define a SwiftUI View Modifier for Haptic Feedback
+3. Define a SwiftUI View Modifier for Haptic Feedback
 
-  Next, we use `StateChangeModifier` to create a view modifier that provides haptic feedback based on trigger state changes:
+Next, we use `StateChangeModifier` to create a view modifier that provides haptic feedback based on trigger state changes:
 
-  ```swift
-  public extension View {
-      func hapticFeedback<T: Equatable>(
-          _ feedback: HapticFeedbackPerformer<T>.Feedback,
-          trigger: T
-      ) -> some View {
-          self.modifier(
-              StateChangeModifier(
-                  feedback,
-                  trigger: trigger,
-                  actionHandler: { feedback in
-                      guard HapticFeedbackPerformer<T>.canPerform() else { return }
-                      HapticFeedbackPerformer<T>.perform(feedback)
-                  }
-              )
-          )
-      }
-  }
-  ```
+```swift
+public extension View {
+    func hapticFeedback<T: Equatable>(
+        _ feedback: HapticFeedbackPerformer<T>.Feedback,
+        trigger: T
+    ) -> some View {
+        self.modifier(
+            StateChangeModifier(
+                feedback,
+                trigger: trigger,
+                actionHandler: { feedback in
+                    guard HapticFeedbackPerformer<T>.canPerform() else { return }
+                    HapticFeedbackPerformer<T>.perform(feedback)
+                }
+            )
+        )
+    }
+}
+```
 
 ### Example Usage in Another Package
 
