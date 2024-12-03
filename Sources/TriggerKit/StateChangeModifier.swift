@@ -120,6 +120,7 @@ extension StateChangeModifier {
                     .onChange(of: trigger, initial: true) { oldValue, newValue in
                         if previousTrigger == nil {
                             previousTrigger = oldValue
+                            return
                         }
                         handleTriggerChange(newValue)
                     }
