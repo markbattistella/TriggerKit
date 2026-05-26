@@ -26,11 +26,21 @@ Add `TriggerKit` to your Swift project using Swift Package Manager.
 
 ```swift
 dependencies: [
-  .package(url: "https://github.com/markbattistella/TriggerKit", from: "1.0.0")
+  .package(url: "https://github.com/markbattistella/TriggerKit", from: "26.2.21")
 ]
 ```
 
 Alternatively, you can add `TriggerKit` using Xcode by navigating to `File > Add Packages` and entering the package repository URL.
+
+## Requirements
+
+- Swift 6.0 or later
+- iOS 14.0 or later
+- macOS 11.0 or later
+- Mac Catalyst 14.0 or later
+- tvOS 14.0 or later
+- watchOS 7.0 or later
+- visionOS 1.0 or later
 
 ## Recommended Usage
 
@@ -50,14 +60,14 @@ Instead of directly using `TriggerKit` in your application code, consider wrappi
 
 Let's create a package that implements haptic feedback using `TriggerKit`:
 
-1. Define Custom User Default Keys for Feedback Settings
+1. Define Runtime Availability Settings
 
 ```swift
 public struct HapticFeedbackSettings {
-    internal static var isAvailable: Bool { 
+    internal static var isAvailable: Bool {
       CHHapticEngine.capabilitiesForHardware().supportsHaptics // system level checks
     }
-    internal static var isEnabled: Bool { 
+    internal static var isEnabled: Bool {
       userIsPayingCustomer && !userNeedsHapticFeedback // your custom checks
     }
 }
@@ -111,6 +121,7 @@ public extension View {
 ### Example Usage in Another Package
 
 ```swift
+import TriggerKit
 import SwiftUI
 
 struct ContentView: View {
